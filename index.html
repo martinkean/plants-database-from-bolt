@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aotearoa Plants Database - New Zealand Native Flora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-gold: #DAD7CD;
+            --secondary-orange: #A3B18A;
+            --accent-coral: #672A4E;
+            --light-teal: #3A5A40;
+            --medium-teal: #344E41;
+            --dark-teal: #00272B;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --medium-gray: #888;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Mulish', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--medium-teal);
+            background-color: var(--white);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: var(--dark-teal);
+            color: var(--primary-gold);
+            padding: var(--spacing-sm) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--box-shadow);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            text-decoration: none;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a:focus {
+            background-color: var(--light-teal);
+            outline: 2px solid var(--primary-gold);
+            outline-offset: 2px;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--primary-gold) 100%);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark-teal);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--medium-teal);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Plants Grid */
+        .plants-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--dark-teal);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .plants-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Plant Card Styles */
+        .plant-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .plant-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: var(--spacing-md);
+        }
+
+        .category-tag {
+            display: inline-block;
+            background-color: var(--accent-coral);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 20px;
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plant-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-teal);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.3;
+        }
+
+        .plant-description {
+            color: var(--medium-gray);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-orange);
+            color: var(--white);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .cta-button:hover,
+        .cta-button:focus {
+            background-color: var(--light-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            outline: 2px solid var(--secondary-orange);
+            outline-offset: 2px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--dark-teal);
+            color: var(--primary-gold);
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-gold);
+        }
+
+        .contact-info p {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--primary-gold);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover,
+        .social-links a:focus {
+            background-color: var(--primary-gold);
+            color: var(--dark-teal);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--light-teal);
+            color: var(--primary-gold);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .header-container {
+                flex-wrap: nowrap;
+            }
+
+            .site-title {
+                margin-bottom: 0;
+            }
+
+            .nav-menu {
+                flex-wrap: nowrap;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .plants-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-lg);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                text-align: left;
+            }
+
+            .copyright {
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .plants-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .plants-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        /* Focus Indicators for Accessibility */
+        *:focus {
+            outline: 2px solid var(--accent-coral);
+            outline-offset: 2px;
+        }
+
+        /* Print Styles */
+        @media print {
+            .header,
+            .footer {
+                background: none !important;
+                color: black !important;
+            }
+
+            .plant-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#home" class="site-title">Aotearoa Plants Database</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#plants">Plants</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Discover Aotearoa's Native Flora</h1>
+            <p>Explore New Zealand's unique and diverse native plant species, from ancient kauri trees to delicate alpine flowers. Learn about the cultural significance and ecological importance of Aotearoa's botanical treasures.</p>
+        </section>
+
+        <!-- Plants Section -->
+        <section class="plants-section" id="plants">
+            <h2 class="section-title">Native Plants Collection</h2>
+            <div class="plants-grid">
+                <!-- Plant Card 1: Pōhutukawa -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=1" alt="Pōhutukawa tree with distinctive red flowers" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Pōhutukawa</h3>
+                        <p class="plant-description">New Zealand Christmas tree with vibrant red flowers that bloom in summer, creating spectacular coastal displays around the country.</p>
+                        <a href="#pohutukawa" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 2: Silver Fern -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=2" alt="Silver fern showing distinctive silver undersides" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Fern</span>
+                        <h3 class="plant-name">Silver Fern / Ponga</h3>
+                        <p class="plant-description">National symbol of New Zealand with distinctive silver undersides on fronds, used as a natural compass by early Māori.</p>
+                        <a href="#silver-fern" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 3: Mānuka -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=3" alt="Mānuka shrub with white flowers" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Shrub</span>
+                        <h3 class="plant-name">Mānuka</h3>
+                        <p class="plant-description">Famous for producing medicinal honey, this hardy shrub produces masses of white or pink flowers and thrives in diverse conditions.</p>
+                        <a href="#manuka" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 4: Kauri -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=4" alt="Ancient kauri tree trunk showing massive scale" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Kauri</h3>
+                        <p class="plant-description">Ancient giants that can live over 1,000 years, these magnificent trees are among New Zealand's most iconic and culturally significant species.</p>
+                        <a href="#kauri" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 5: Kōwhai -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=5" alt="Kōwhai tree with golden-yellow flowers" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Kōwhai</h3>
+                        <p class="plant-description">New Zealand's national flower featuring stunning golden-yellow blooms that appear in spring, providing nectar for native birds like tui.</p>
+                        <a href="#kowhai" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 6: Harakeke -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=6" alt="Harakeke flax plant with long blade-like leaves" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Shrub</span>
+                        <h3 class="plant-name">Harakeke / Flax</h3>
+                        <p class="plant-description">Traditional weaving material with strong, flexible leaves used by Māori for centuries to create baskets, mats, and clothing.</p>
+                        <a href="#harakeke" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 7: Punga -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=7" alt="Tree fern with large prehistoric fronds" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Fern</span>
+                        <h3 class="plant-name">Punga / Tree Fern</h3>
+                        <p class="plant-description">Prehistoric canopy creators with massive fronds that can reach up to 10 meters, creating magical forest environments.</p>
+                        <a href="#punga" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 8: Tōtara -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=8" alt="Tōtara tree showing distinctive bark and foliage" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Tōtara</h3>
+                        <p class="plant-description">Slow-growing conifer with immense cultural significance, traditionally used for carving waka and building, can live over 1,800 years.</p>
+                        <a href="#totara" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 9: Rātā -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=9" alt="Rātā tree with distinctive red flowers" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Rātā</h3>
+                        <p class="plant-description">Epiphytic trees that begin life on other trees, eventually becoming magnificent specimens with brilliant red flowers beloved by native birds.</p>
+                        <a href="#rata" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 10: Hebe -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=10" alt="Hebe shrub with purple flower spikes" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Shrub</span>
+                        <h3 class="plant-name">Hebe</h3>
+                        <p class="plant-description">Over 100 species with varied flowers from white to deep purple, these hardy shrubs are essential pollinators for native insects.</p>
+                        <a href="#hebe" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 11: Nikau Palm -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=11" alt="Nikau palm with distinctive fronds" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Tree</span>
+                        <h3 class="plant-name">Nikau Palm</h3>
+                        <p class="plant-description">New Zealand's only native palm, found in coastal and lowland forests, with distinctive fan-shaped leaves and orange fruit clusters.</p>
+                        <a href="#nikau" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- Plant Card 12: Kawakawa -->
+                <article class="plant-card">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/400/300?random=12" alt="Kawakawa plant with heart-shaped leaves" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">Shrub</span>
+                        <h3 class="plant-name">Kawakawa</h3>
+                        <p class="plant-description">Heart-shaped leaves with powerful medicinal properties, traditionally used by Māori for treating ailments and still valued in herbal medicine today.</p>
+                        <a href="#kawakawa" class="cta-button">Learn More</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <div class="contact-info">
+                        <p>Email: info@aotearoaplants.co.nz</p>
+                        <p>Phone: +64 9 123 4567</p>
+                        <p>Location: Auckland, New Zealand</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#facebook">Facebook</a>
+                        <a href="#instagram">Instagram</a>
+                        <a href="#twitter">Twitter</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>About This Database</h3>
+                    <p>Dedicated to preserving and sharing knowledge about New Zealand's unique native flora for future generations.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Aotearoa Plants Database. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
